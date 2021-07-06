@@ -1,23 +1,6 @@
 from operator import itemgetter
 from model.round import Round
 
-list_players = [{'nom': 'dupont', 'prénom': 'loulou', 'gender': 'Homme',
-                 'anniversaire': '14/07/1988', 'elo': '1101', 'id': 1},
-                {'nom': 'dupuit', 'prénom': 'lou', 'gender': 'Femme',
-                'anniversaire': '29/1999', 'elo': '1102', 'id': 2},
-                {'nom': 'dubois', 'prénom': 'fifi', 'gender': 'Homme',
-                'anniversaire': '30/07/1967', 'elo': '1103', 'id': 3},
-                {'nom': 'ducon', 'prénom': 'riri', 'gender': 'Femme',
-                'anniversaire': '13/07/1985', 'elo': '1104', 'id': 4},
-                {'nom': 'domino', 'prénom': 'mimi', 'gender': 'Homme',
-                'anniversaire': '02/07/1975', 'elo': '1105', 'id': 5},
-                {'nom': 'dimano', 'prénom': 'marie', 'gender': 'Femme',
-                'anniversaire': '15/07/1981', 'elo': '1106', 'id': 6},
-                {'nom': 'domina', 'prénom': 'jeanjean', 'gender': 'Homme',
-                'anniversaire': '24/07/2001', 'elo': '1107', 'id': 7},
-                {'nom': 'damasio', 'prénom': 'alain', 'gender': 'Homme',
-                'anniversaire': '28/09/1969', 'elo': '1108', 'id': 8}]
-
 
 class Tournament:
 
@@ -35,7 +18,7 @@ class Tournament:
         self.ranking_points = 0
         self.tournament_info = []
         self.rounds = []
-        self.list_players = list_players
+        self.list_players = []
         self.winner = None
 
     def set_nb_players(self):
@@ -58,14 +41,15 @@ class Tournament:
     def sort_elo(self, list_players):
         list_name_elo = []
         for elem in list_players:
-            elo = elem["elo"]
-            first_name_player = elem["prénom"]
-            last_name_player = elem["nom"]
-            id_player = elem["id"]
-            dictp = {"nom": first_name_player + " " + last_name_player, "elo": elo, 'ID': id_player}
+            elo = elem[0]["elo"]
+            first_name_player = elem[0]["prénom"]
+            last_name_player = elem[0]["nom"]
+            ranking_points = elem[0]["points de tournoi"]
+            id_player = elem[0]["id"]
+            dictp = {"nom": str(first_name_player) + " " + str(last_name_player), "elo": elo, "points de tournoi": ranking_points, 'ID': id_player}
             list_name_elo.append(dictp)
         getcount = itemgetter("elo")
-        self.sorted_elo = (sorted(list_name_elo, key=getcount))
+        self.sorted_elo = (sorted(list_name_elo, key=getcount, reverse=True))
         return self.sorted_elo
 
     def player_attribution(self, sorted_elo):
@@ -84,35 +68,54 @@ class Tournament:
         self.num_rounds += 1
         for elem in list_match:
             rounds_obj = Round(player_1=elem["player_1"],
-                               player_2=elem["player_2"])
+                               player_2=elem["player_2"]
+                               )
             self.rounds.append(rounds_obj)
+            Round().list_rounds = self.rounds
         return self.rounds
 
-    def get_winner(self, list_round):
-        for game in list_round:
-            print("Joueur 1 :", game["player_1"], "Joueur 2 :", game["player_2"])
-            player_1 = game["player_1"]
-            player_2 = game["player_2"]
-            # print(game['elo'], "le test")
-            value = input("le joueur-1 a gagné ou perdu ou nul  G/P/N :")
-            if value == 'g':
+    # player_1["ranking_points"] += 2  # bonne méthode
+
+    def set_ranking_points(self, round):
+        for elem in round:
+            #print(elem)
+
+            print(elem)
+            round_winner = Round().get_winner()
+            if round_winner is True:
                 print("le joueur-1 a gagné")
-                self.winner = True
-                player_1.update({"ranking_points": + 2})
-                player_2.update({"ranking_points": + 0})
-                # print(game['elo'])
-            elif value == 'p':
+                i = 0
+                while i != 8:
+                    if self.list_players[i][0]["id"] == elem["ID"][0]:
+                        self.list_players[i][0]["points de tournoi"] += 2
+                        print(self.list_players[i][0]) 
+                    if self.list_players[i][0]["id"] == elem["ID"][1]:
+                        self.list_players[i][0]["points de tournoi"] -= 2
+                        print(self.list_players[i][0]) 
+                    #print(self.list_players[i][0],"-9-9-9-9-9-9-9")     
+                    i += 1
+            elif round_winner is False:
                 print("le joueur-1 a perdu")
-                self.winner = False
-                player_1.update({"ranking_points": + 0})
-                player_2.update({"ranking_points": + 2})
+                i = 0
+                while i != 8:
+                    if self.list_players[i][0]["id"] == elem["ID"][0]:
+                        self.list_players[i][0]["points de tournoi"] -= 2
+                    if self.list_players[i][0]["id"] == elem["ID"][1]:
+                        self.list_players[i][0]["points de tournoi"] += 2
+                    i += 1
             else:
-                value == 'n'
-                print("match nul")
-                self.winner = None
-                player_1.update({"ranking_points": + 1})
-                player_2.update({"ranking_points": + 1})
-        return self.winner
+                round_winner is None
+                print("match-nul")
+                i = 0
+                while i != 8:
+                    if self.list_players[i][0]["id"] == elem["ID"][0]:
+                        self.list_players[i][0]["points de tournoi"] += 1
+                    if self.list_players[i][0]["id"] == elem["ID"][0]:
+                        self.list_players[i][0]["points de tournoi"] += 1
+                    i += 1  
+
+        return self.list_players            
+
 
     def rework_list(self, list_match):
         for elem in list_match:
@@ -121,21 +124,19 @@ class Tournament:
             player_1.pop("elo")
             player_2.pop("elo")
             key = {"adversaire ID": []}
+            key2 = {"adversaire ID": []}
             player_1.update(key)
-            player_2.update(key)
+            player_2.update(key2)
         return list_match
 
     def last_opponent(self, list_match):
-        print(list_match, 'LA LIST EN ENTRE')
+        print(list_match, 'LA LIST EN ENTREE')
         list_players = []
-        for elem in list_match:
-            print(elem, "LES ELEMENTS DE LA LISTE")
+        for elem in list_match:          
             player_1 = elem["player_1"]
-            player_2 = elem["player_2"]
-            player_1["adversaire ID"] = player_2["ID"]
-            # player_2["adversaire ID"].append(player_1["ID"])
-            print(player_1["adversaire ID"], "ADVERSSSAIRE IIIIDDDDD PP1")
-            print(player_2["adversaire ID"], "ADVERSSSAIRE IIIIDDDDD  PP2")
+            player_2 = elem["player_2"]            
+            player_1["adversaire ID"].append(player_2["ID"])
+            player_2["adversaire ID"].append(player_1["ID"])
             list_players.append(player_1)
             list_players.append(player_2)
         return list_players
@@ -169,3 +170,11 @@ class Tournament:
             i += 2
         # print(list_match)
         return list_match
+
+
+    def __str__(self):
+        return f"ID : {self.list_players}"
+
+
+    def __getitem__(self, choice):
+        return self.player_1[choice]
