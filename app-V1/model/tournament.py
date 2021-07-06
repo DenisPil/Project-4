@@ -78,8 +78,7 @@ class Tournament:
 
 
     """
-                    Tim donc je travail sur "self.list_players" le "i" représente le numéro.
-                    Dans l'instance d'un joueur,
+                    Tim donc je travail sur "self.list_players" le "i" représente le numéro d'une instance de joueur dans la liste.
                     je veux lui ajouter des points de tournoi.
                     Je fais les modifs de points de tournoi, 
                     ensuite j'affiche "self.list_players[i][0]" et les informations sont bien la
