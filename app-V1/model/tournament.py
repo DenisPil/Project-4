@@ -76,23 +76,43 @@ class Tournament:
 
     # player_1["ranking_points"] += 2  # bonne méthode
 
+
+    """
+                    Tim donc je travail sur "self.list_players" le "i" représente le numéro.
+                    Dans l'instance d'un joueur,
+                    je veux lui ajouter des points de tournoi.
+                    Je fais les modifs de points de tournoi, 
+                    ensuite j'affiche "self.list_players[i][0]" et les informations sont bien la
+                    mais a la fin du processuce quand je veux afficher self.list_players, et bien il y a plus rien.
+                    Si je comprend bien c est que l'objet "self.list_players[i][0]" n'est pas "self.list_players".
+                    C'est un dict qui est créé grace a une instance de joueur mais au final, si je modifie ce dict cela ne modifie
+                    pas l'instance et c'est 
+                    le coeur du pb je n'arrive pas a modifier une information de l'instance.
+                    J'ai besoin de savoir comment faire je perd tellement de temps a tourner en rond...
+                    En dessous de la méthode il y a le résultat de ma console 
+                
+
+    """
+
+
     def set_ranking_points(self, round):
         for elem in round:
-            #print(elem)
-
-            print(elem)
             round_winner = Round().get_winner()
             if round_winner is True:
+                print(elem)
                 print("le joueur-1 a gagné")
                 i = 0
+                print(self.list_players," liste d'instances de mes joueurs")
+                print(self.list_players[i], "l'instance d'un joueur, j'utilise __srt__ pour qu'elle soit lisible")
+                print(self.list_players[i][0], "a partir de l'instance j'accede au dict qui contient toutes les infos")             
                 while i != 8:
+
                     if self.list_players[i][0]["id"] == elem["ID"][0]:
                         self.list_players[i][0]["points de tournoi"] += 2
-                        print(self.list_players[i][0]) 
+                        print(self.list_players[i][0],"le dict créé a partir de mon instance")
+                        print(self.list_players[i],"mon instance de joueur")   
                     if self.list_players[i][0]["id"] == elem["ID"][1]:
                         self.list_players[i][0]["points de tournoi"] -= 2
-                        print(self.list_players[i][0]) 
-                    #print(self.list_players[i][0],"-9-9-9-9-9-9-9")     
                     i += 1
             elif round_winner is False:
                 print("le joueur-1 a perdu")
@@ -115,6 +135,39 @@ class Tournament:
                     i += 1  
 
         return self.list_players            
+
+""" voila le résultat dans ma console
+
+ligne 83
+Round 1, Joueur N°1 : {'nom': ' 8', 'elo': 8, 'points de tournoi': 0, 'ID': 8}, Joueur N°2 : {'nom': ' 4', 'elo': 4, 'points de tournoi': 0, 'ID': 4}                    
+le joueur-1 a gagné ou perdu ou nul  G/P/N :g
+
+ligne 84
+le joueur-1 a gagné
+
+ligne 86
+[<model.player.Player object at 0x0000013A62726D00>, <model.player.Player object at 0x0000013A62726CD0>, <model.player.Player object at 0x0000013A62726D60>, <model.player.Player object 
+at 0x0000013A62726D90>,
+<model.player.Player object at 0x0000013A62726DC0>, <model.player.Player object at 0x0000013A62726DF0>, <model.player.Player object at 0x0000013A62726E20>, 
+<model.player.Player object at 0x0000013A62726E50>]  liste d'instances de mes joueurs
+
+ligne 87
+l'instance d'un joueur, j'utilise __srt__ pour qu'elle soit lisible
+ID : 1, Nom : 1, prénom : , genre : genre,anniversaire :birthday, elo : 1, points de tournoi : 0  
+
+ligne 88
+a partir de l'instance j'accede au dict qui contient toutes les infos  
+{'id': 1, 'nom': 1, 'prénom': '', 'genre': 'genre', 'anniversaire': 'birthday', 'elo': 1, 'points de tournoi': 0} 
+ 
+ligne 107
+le dict créé a partir de mon instance
+{'id': 8, 'nom': 8, 'prénom': '', 'genre': 'genre', 'anniversaire': 'birthday', 'elo': 8, 'points de tournoi': 2} le dict créé a partir de mon instance
+
+ligne 108
+mon instance de joueur
+ID : 8, Nom : 8, prénom : , genre : genre,anniversaire :birthday, elo : 8, points de tournoi : 0  
+                    """
+
 
 
     def rework_list(self, list_match):
