@@ -16,11 +16,6 @@ class RoundController:
         end = Round()
         return end
 
-    def winner(self, list_round):
-        round = Round()
-        win = round.get_winner(list_round)
-        return win
-
 """
 t = RoundController()
 """

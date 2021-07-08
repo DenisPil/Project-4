@@ -41,53 +41,11 @@ class TournamentController:
             else:
                 value = input()
 
-        """
-         Les joueurs sont dans le tournoi, il faut donc créer les rounds.
-         - Trier les joueurs selon leur elo
-         - attribuer les joueurs pour les rounds
-         - création des rounds
-        """
+        list_rounds = tournament.create_rounds()
+        round_1 = list_rounds[0]
+        matchs_in_round_1 = round_1.create_matchs_in_round()
+        result = round_1.get_winner(matchs_in_round_1)
+        tournament.set_ranking_points(result)
 
-        sorted_elo = tournament.sort_elo(tournament.list_players)
-        
-        list_match_r1 = tournament.player_attribution(sorted_elo)
-
-        round_1 = tournament.create_rounds(list_match_r1)
-        # print(round_1[0], '\n',round_1[1], '\n',round_1[2], '\n',round_1[3])
-        winner_round = tournament.set_ranking_points(round_1)
-        for elem in tournament.list_players:
-            print(elem)
-        """
-        Le Round est fini.
-        -Savoir qui a gagné
-        -Lui attribuer des points
-        """
-        """
-        tournament.get_winner(list_match_r1)  # voir avec thim je triche je travail pas sur l'instance mais la liste
-        """
-        """
-        Attribuer un deuxieme adversaire pour le 2 round
-        - Connaitre l'ancien adversaire
-        - Connaitre le nombres de poitns de tournoi
-        - Attribuer les joueurs
-        - Créer le Round 2
-        """"""
-        rework_list = tournament.rework_list(list_match_r1)
-        last_opponent_r1 = tournament.last_opponent(rework_list)
-        sorted_ranking = tournament.sorted_ranking_points(last_opponent_r1)
-        list_match_r2 = tournament.next_player_attribution(sorted_ranking)
-        round_2 = tournament.create_rounds(list_match_r2)
-        # print(round_2[0], round_2[1], round_2[2], round_2[3])  voir avec thim il affiche toujours le round1
-        """
-        """
-        Le Round 2 est fini.
-        -Savoir qui a gagné
-        -Lui attribuer des points
-        """
-        """
-        tournament.get_winner(list_match_r2)
-        last_opponent_r2 = tournament.last_opponent(list_match_r2)
-        print(last_opponent_r2)
-        """
 t = TournamentController()
 t.run()

@@ -27,8 +27,6 @@ class PlayerController:
                         ranking_points=0,
                         birthday="birthday"
                         )
-
-        player.create_dict()
         return player
 
 """p = PlayerController()
