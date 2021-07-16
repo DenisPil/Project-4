@@ -13,7 +13,7 @@ class Player:
         Player.player_id += 1
 
     def __str__(self):
-        return f"ID : {self.ID}, Nom : {self.last_name}, elo : {self.elo}, points de tournoi : {self.ranking_points} "
+        return f"ID : {self.ID}, Nom : {self.last_name}, elo : {self.elo}, points de tournoi : {self.ranking_points}"
     """
     def __getitem__(self, choice):
         return self.list_players[choice]"""
