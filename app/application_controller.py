@@ -1,7 +1,7 @@
 from views.home_menu_view import HomeMenuView
 from utils.menus import Menu
-from player_controller import PlayerController
-from tournament_controller import TournamentController
+from controllers.player_controller import PlayerController
+from controllers.tournament_controller import TournamentController
 
 tournament_controller = TournamentController()
 player_controller = PlayerController()
@@ -52,7 +52,6 @@ class NewTournamentMenuController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
-
 
     def __call__(self):
         self.menu.header("_________________________________", "")

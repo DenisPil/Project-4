@@ -10,7 +10,7 @@ class HomeMenuView:
     def display_menu(self):
         for key, entry in self.menu.items():
             print(f"{key} : {entry} ")
-        print("")  
+        print("")
 
     def get_user_choice(self):
 
