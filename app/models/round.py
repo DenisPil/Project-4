@@ -4,10 +4,13 @@ from tinydb import TinyDB, Query
 
 class Round:
 
+    """
+        Modélisation d'un round.
+    """
 
     def __init__(self, list_players, num_rounds=int):
-        self.start_time = self.set_time()
-        self.end_time = self.set_time()
+        self.start_time = None
+        self.end_time = None
         self.num_rounds = num_rounds
         self.list_matches = list()
         self.list_players = list_players
@@ -16,11 +19,21 @@ class Round:
         self.serialized_rounds = list()
 
     def set_time(self):
-        self.time_now = datetime.now().time()
-        return self.time_now
+
+        """
+            Méthode qui permet de connaitre l'heure du début et de fin d'un round.
+            Renvoie une valeur avec l'heure.
+        """
+
+        time_now = datetime.now().time()
+        return time_now
 
     def create_first_match(self):
-        self.serialize_list_of_matches_and_rounds()
+
+        """
+            Méthode qui crée les matches du premier round.
+        """
+
         self.list_players.sort(key=lambda value: value.elo, reverse=True)
         sort_list_a = self.list_players[0:4]
         sort_list_b = self.list_players[4:8]
@@ -34,10 +47,14 @@ class Round:
             self.list_matches.append(match)
             self.num_match += 1
             i += 1
-
         self.num_match = 1
 
     def create_matches(self):
+
+        """
+            Méthode qui crée les matches des round 2, 3 et 4.
+        """
+
         sort_elo = sorted(self.list_players, key=attrgetter('elo'), reverse=True)
         sort_points = sorted(sort_elo, key=attrgetter('ranking_points'), reverse=True)
         length = len(sort_points)
@@ -53,30 +70,55 @@ class Round:
             self.list_matches.append(match)
         self.num_match = 1
 
-    def serialize_list_of_matches_and_rounds(self):
+    def serialize_round(self):
 
-        for elem in self.list_matches:
+        """
+            Méthode qui sérialise les rounds.
+            Renvoie une liste des rounds sérialisés
+        """
+
+        serialized_round = list()
+        for match in self.list_matches:
+            start_time = self.start_time
+            end_time = self.end_time
+            p1 = match['Joueur 1']
+            p2 = match['Joueur 2']
+            match_num = match['Match']
+            match_winner = match['winner']
+            matches = {"match": match_num,
+                       "heure du match": (str(start_time), str(end_time)),
+                       "Joueur 1": (p1.ID),
+                       "Joueur 2": (p2.ID),
+                       "le gagnant": match_winner
+                       }
+            serialized_round.append(matches)
+        return serialized_round
+
+    def deserialize_round(self, round):
+
+        """
+            Méthode qui désérialise un round.
+            Renvoie la liste des matches du round.
+
+            Argument:
+                round = un dictionnaire des matches du round.
+        """
+
+        list_matches = list()
+        for elem in round:
+            start_time = elem['heure du match']
             p1 = elem['Joueur 1']
+
             p2 = elem['Joueur 2']
-            m = elem['Match']
-            test = {"m": m,
-                    "p1": p1.ID,
-                    "p2": p2.ID}
-            print(p1, "aeaezeaezaeazeazeffazdc")
-            self.serialized_rounds.append(test)
-        print(self.serialized_rounds, "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")    
-
-
-
-
-
-    """
-    __getitem__
-    Cet opérateur est appelé lorsqu’on cherche à accéder à un élément
-    de l’objet self d’indice i comme si c’était une liste.
-    """
-    """
-     __str__
-    Convertit un objet en une chaîne de caractère qui sera affichée
-    par la fonction print ou obtenu avec la fonction str.
-    """
+            match_num = elem['match']
+            match_winner = elem['le gagnant']
+            player_1 = [player for player in self.list_players if p1 == player.ID]
+            player_2 = [player for player in self.list_players if p2 == player.ID]
+            match = {"Match": match_num,
+                     "Joueur 1": player_1[0],
+                     "Joueur 2": player_2[0],
+                     "winner": match_winner,
+                     "heure du match": start_time
+                     }
+            list_matches.append(match)
+        return list_matches

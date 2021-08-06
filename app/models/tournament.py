@@ -1,64 +1,132 @@
 from .round import Round
 from tinydb import TinyDB, Query
-import json
+
 
 class Tournament:
+
+    """
+        Modélisation d'un tournoi.
+    """
 
     db = TinyDB("chess.json")
     tournament_table = db.table("tournament")
     players_table = db.table("players")
 
-    def __init__(self, name, location, time_ctrl, start_date, end_date):
+    def __init__(self, 
+                 name=None,
+                 location=None,
+                 time_ctrl=None,
+                 start_date=None,
+                 end_date=None,
+                 list_rounds=list(),
+                 list_players=list()
+                 ):
 
         self.name = name
         self.location = location
         self.time_ctrl = time_ctrl
         self.start_date = start_date
         self.end_date = end_date
-        self.num_rounds = 0
-        self.list_rounds = list()
-        self.list_players = list()
-        self.list_players_serialized = list()
+        self.list_rounds = list_rounds
+        self.list_players = list_players
+        self.num_rounds = (len(self.list_rounds) + 1)
         self.nb_players = len(self.list_players)
-
-    def set_nb_players(self):
-        self.nb_players = len(self.list_players)
-        return self.nb_players
 
     def create_rounds(self):
-        self.num_rounds += 1  # fait attention peut etre a revoir
+
+        """
+            Méthode qui crée les rounds a partir de de la classe 'Round',
+            et les ajoutes a la liste de rounds du tournoi.
+            Renvoie une instance de round.
+        """
+
         rounds = Round(num_rounds=self.num_rounds, list_players=self.list_players)
         self.list_rounds.append(rounds)
-        self.serialize_list_of_rounds()
-        
+        self.num_rounds += 1
         return rounds
 
     def serialize(self):
+
+        """
+            Méthode qui serialize un tournoi pour la base de donnée.
+        """
         user = Query()
         self.tournament_table.upsert({"nom": self.name,
                                       "lieu": self.location,
                                       "Nombre de joueurs": self.nb_players,
                                       "rythme": self.time_ctrl,
-                                      "date de début": self.start_date,
+                                      "date de debut": self.start_date,
                                       "date de fin": self.end_date,
-                                      "liste des joueurs": self.list_players_serialized}, (user.nom == self.name))
-                                      # "liste des rounds": self.list_rounds}, (user.nom == self.name))
+                                      "liste des joueurs": self.serialize_list_of_players(),
+                                      "liste des rounds": self.serialize_list_of_rounds()}, (user.nom == self.name))
 
     def serialize_list_of_players(self):
+
+        """
+            Méthode qui sérialise la liste des joueurs d'un tournoi, qui sera ajouté
+            à la serialisation du tournoi.
+            Renvoie la liste des joueurs serialisés du tournoi. 
+        """
+
+        list_players_serialized = list()
         for player in self.list_players:
             for dbplayer in self.players_table:
-                id_player = dbplayer.doc_id
+                id_player_db = dbplayer.doc_id
                 if player.ID == dbplayer.doc_id:
-                    serialized_player = self.players_table.get(doc_id=id_player)
-                    self.list_players_serialized.append(serialized_player)
+                    serialized_player = self.players_table.get(doc_id=id_player_db)
+                    list_players_serialized.append(serialized_player)
+        return list_players_serialized
 
     def serialize_list_of_rounds(self):
-        test = self.list_rounds[0].serialized_rounds
-        print (test,'-9-9-9-9-9-9-9-9-9-9-9-9-9-9')
-        print(self.list_rounds[0].list_matches, '8-8-8-8-8-8-8-8--8-')
+        
+        """
+            Méthode qui sérialise la liste des rounds d'un tournoi, qui sera ajouté
+            à la serialisation du tournoi.
+            Renvoie la liste des rounds serialisés du tournoi. 
+        """
+
+        serialized_round = list()
+        for round in self.list_rounds:
+            match = round.serialize_round()
+            round_dict = {'round ': round.num_rounds, 'match': match}
+            serialized_round.append(round_dict)
+        return serialized_round
+
+    def serialized_tournament_list(self):
+
+        """
+            Méthode qui créer une list avec tous les tournois serialisés
+            Renvoie une liste des tournoi sérialisés contenue dans la base de donnée.
+        """
+
+        serialized_tournament = self.tournament_table.all()
+        return serialized_tournament
+
+    def deserialize_rounds_from_database(self, players):
+
+        """
+            Méthode qui a partir des informations serialiser des rounds,
+            d'un tournoi créer des instances de rounds.
+            Renvoie une liste d'instance de round contenue dans le tournoi.
+
+            Argument:
+                players = liste d'instance de joueurs du tournoi.
+        """
+
+        all_rounds = list()
+        for key, round in enumerate(self.list_rounds):
+            serialized_matches = round['match']
+            num_rounds = key + 1
+            round = Round(num_rounds=num_rounds, list_players=players)
+            match = round.deserialize_round(serialized_matches)
+            round.list_matches = match
+            all_rounds.append(round)
+        return all_rounds
 
     def __str__(self):
-        return (f"""Nom du tournoi : {self.name}, lieu :{self.location}, type de partie :{self.time_ctrl}, date du début :{self.start_date}, date de fin: {self.end_date}""")
 
-    def __getitem__(self, choice):
-        return self.player_1[choice]
+        """
+            Méthode qui affiche les informations de base d'un tournoi.
+        """
+        return (f"Nom du tournoi : {self.name}, lieu :{self.location}, type de partie :{self.time_ctrl}, "
+                f"date du début :{self.start_date}, date de fin: {self.end_date}")

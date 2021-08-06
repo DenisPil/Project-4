@@ -6,6 +6,11 @@ from utils.menus import Menu
 
 
 class PlayerController:
+
+    """
+        Création de l'instance d'un joueur.
+    """
+
     def __init__(self):
         self.player = None
         self.view = View()
@@ -23,8 +28,12 @@ class PlayerController:
                                     "info": "'1' le prénom, '2' le nom, '3' le genre, '4' l'anniverssaire, '5' l'elo "
                                     }
 
-
     def add_new_player(self):
+
+        """
+            Méthode qui demande a l'utilisateur de rentrer les informations d'un joueur lors de ça création.
+            Renvoie une instance de joueur.
+        """
 
         """self.view.show(self.display_information["first_name"])
         first_name = self.input.get_input_str()
@@ -45,16 +54,34 @@ class PlayerController:
                              birthday="birthday",
                              ID=Player.player_id
                              )
+        Player.player_id += 1
         self.check_player_info()
         self.player.serialize()
         return self.player
 
-    def add_database_player(self, id_num):
-        player = Player().add_player_from_database(id_num)
+    def add_database_player(self, player_id):
+
+        """
+            Méthode qui récupére l'ID d'un joueur, pour créer une instance de joueur a partir de la base de donnée.
+            Cette méthode est utiliser pour ajouter un joueur a un tournoi.
+            Renvoie une instance de joueur.
+
+            Argument:
+                player_id = L'id du joueur qui correspond a son doc_id de la base de donnée.
+        """
+
+        player = Player().add_player_from_database(doc_id=player_id)
         return player
 
     def check_player_info(self):
-        self.view.check_info_player(first_name=self.player.first_name,
+
+        """
+            Méthode qui affiche les attributs d'un joueur pour que l'utilisateur les valides
+            ou les modifies au besoin.
+        """
+
+        self.view.check_info_player(ID=self.player.ID,
+                                    first_name=self.player.first_name,
                                     last_name=self.player.last_name,
                                     gender=self.player.gender,
                                     birthday=self.player.birthday,
@@ -84,3 +111,42 @@ class PlayerController:
             elif info == 5:
                 self.view.show(self.display_information["elo"])
                 self.player.elo = self.input.get_input_int()
+
+    def display_players_from_database(self):
+
+        """
+            Méthode qui affiche la liste de tous les joueurs de la base de donnée.
+        """
+
+        for player in Player().deserialize_players_in_database():
+            self.view.check_info_player(ID=player.ID,
+                                        first_name=player.first_name,
+                                        last_name=player.last_name,
+                                        gender=player.gender,
+                                        birthday=player.birthday,
+                                        elo=player.elo,
+                                        )
+
+    def deserialize__players_from_tournament(self, player_list):
+
+        """
+            Méthode qui créer les instances de joueurs d'un tournoi a partir de la liste
+            de joueurs serialisées du tournoi.
+            Renvoie une liste d'instances de joueurs
+
+            Argument:
+                player_list = liste des joueurs serialisés d'un tournoi
+        """
+
+        all_player_instance = list()
+        for elem in player_list:
+            player = Player(ID=elem['ID'],
+                            first_name=elem['prenom'],
+                            last_name=elem['nom'],
+                            gender=elem['genre'],
+                            birthday=elem['anniversaire'],
+                            elo=elem['ELO'],
+                            ranking_points=elem['points de tournoi']
+                            )
+            all_player_instance.append(player)
+        return all_player_instance
