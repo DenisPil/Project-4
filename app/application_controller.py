@@ -2,20 +2,22 @@ from views.home_menu_view import HomeMenuView
 from utils.menus import Menu
 from controllers.player_controller import PlayerController
 from controllers.tournament_controller import TournamentController
+from utils.constants import ROUND_MAX
 
-tournament_controller = TournamentController()
-player_controller = PlayerController()
 
 class ApplicationController:
+
     """
-    self.controller : le controlleur courant de navigation
+        Controleur principale de l'application qui déclenche toutes les étapes
     """
+
     def __init__(self):
         self.controller = None
 
     def start(self):
         """
-        Gére la navigation dans le menu
+         Méthode qui gére la navigation dans le menu.
+         Permet d'instancier les controlleurs
         """
         self.controller = HomeMenuController()
         while self.controller:
@@ -39,7 +41,7 @@ class HomeMenuController:
         # lié a la clé, et le controlleur associée a l'option)
         self.menu.header("_________________________________", "")
         self.menu.header("Menu", "Principal")
-        self.menu.add("auto", "Création d'un tournoi.", NewTournamentMenuController)
+        self.menu.add("auto", "Création d'un tournoi.", CreateTournamentMenuController)
         self.menu.add("auto", "Ajouter des joueurs", AddPlayerMenuController)
         self.menu.add("auto", "Archive", ArchiveMenuController)
 
@@ -47,13 +49,21 @@ class HomeMenuController:
         return user_choice.handler
 
 
-class NewTournamentMenuController:
+class CreateTournamentMenuController:
+
+    tournament_controller = TournamentController()
+    player_controller = PlayerController()
 
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
 
     def __call__(self):
+
+        """
+            Méthode qui permet d'instancier la classe comme une fonction.
+        """
+
         self.menu.header("_________________________________", "")
         self.menu.header("Menu", "Nouveau tournoi:")
         self.menu.add("auto", "créer un nouveau tournoi", NewTournamentController)
@@ -68,10 +78,9 @@ class NewTournamentController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
-        self.tournament_controller = tournament_controller
-
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
     def __call__(self):
-        self.tournament_controller.add_new_tournament()
+        self.tournament_controller.create_tournament()
         self.menu.header("_________________________________", "")
         self.menu.header("Menu du tournoi :", self.tournament_controller.tournament.name)
         self.menu.add("auto", "Ajouter des joueurs au tournoi", AddPlayerInTournamentController)
@@ -84,7 +93,7 @@ class StartRoundController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
-        self.tournament_controller = tournament_controller
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
         self.num_round = self.tournament_controller.tournament.num_rounds
 
     def __call__(self):
@@ -103,10 +112,10 @@ class AddPlayerInTournamentController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
-        self.players = tournament_controller
+        self.tournament = CreateTournamentMenuController.tournament_controller
 
     def __call__(self):
-        self.players.add_players()
+        self.tournament.add_players()
         self.menu.header("_________________________________", "")
         self.menu.header("Menu", "Nouveau Joueur")
         self.menu.add("auto", "Commencer le tournoi", StartRoundController)
@@ -121,11 +130,11 @@ class SetWinnerMatchController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
-        self.tournament_controller = tournament_controller
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
         self.num_round = self.tournament_controller.tournament.num_rounds
 
     def __call__(self):
-        if self.num_round < 4:
+        if self.num_round <= ROUND_MAX:
             self.tournament_controller.set_winner()
             self.menu.header("_________________________________", "")
             self.menu.header("Résultat du Tournoi :", self.tournament_controller.tournament.name)
@@ -134,7 +143,7 @@ class SetWinnerMatchController:
             self.menu.add("auto", "Retour au menu.", HomeMenuController)
             user_choice = self.view.get_user_choice()
             return user_choice.handler
-        elif self.num_round == 4:
+        elif self.num_round > ROUND_MAX:
             self.tournament_controller.set_winner()
             self.menu.header("_________________________________", "")
             self.menu.header("Fin du Tournoi :", self.tournament_controller.tournament.name)
@@ -165,7 +174,7 @@ class AddPlayerController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
-        self.players = player_controller
+        self.players = CreateTournamentMenuController.player_controller
 
     def __call__(self):
         self.players.add_new_player()
@@ -181,7 +190,7 @@ class DisplayRankingPointsController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
-        self.tournament_controller = tournament_controller
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
 
     def __call__(self):
         self.tournament_controller.display_ranking_points()
@@ -198,7 +207,7 @@ class DisplayEndTournamentController:
     def __init__(self):
         self.menu = Menu()
         self.view = HomeMenuView(self.menu)
-        self.tournament_controller = tournament_controller
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
 
     def __call__(self):
         self.tournament_controller.display_ranking_points()
@@ -211,11 +220,117 @@ class DisplayEndTournamentController:
 
 
 class ArchiveMenuController:
-    pass
+    def __init__(self):
+        self.menu = Menu()
+        self.view = HomeMenuView(self.menu)
+
+    def __call__(self):
+
+        self.menu.header("_________________________________", "")
+        self.menu.header("Menu", "Archive")
+        self.menu.add("auto", "Liste des joueurs.", ArchivePlayersController)
+        self.menu.add("auto", "Liste des tournois.", ArchiveTournamentController)
+        self.menu.add("auto", "Retour au menu.", HomeMenuController)
+        user_choice = self.view.get_user_choice()
+        # 3. retourner le controller associé au choix de l'utilisateur au controleur principal
+        return user_choice.handler
 
 
-class ArchiveController:
-    pass
+class ArchivePlayersController:
+    def __init__(self):
+        self.menu = Menu()
+        self.view = HomeMenuView(self.menu)
+        self.player_controller = CreateTournamentMenuController.player_controller
+
+    def __call__(self):
+        self.player_controller.display_players_from_database()
+        self.menu.header("_________________________________", "")
+        self.menu.header("Menu", "Archive : Liste des joueurs dans la base de donnée")
+        self.menu.add("auto", "Retour au menu.", HomeMenuController)
+        user_choice = self.view.get_user_choice()
+        # 3. retourner le controller associé au choix de l'utilisateur au controleur principal
+        return user_choice.handler
+
+class ArchiveTournamentController:
+    def __init__(self):
+        self.menu = Menu()
+        self.view = HomeMenuView(self.menu)
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
+
+    def __call__(self):
+        self.tournament_controller.display_tournament_from_database()
+        self.menu.header("_________________________________", "")
+        self.menu.header("Archive : Information complémentaire du tournoi : ", self.tournament_controller.tournament.name)
+        self.menu.add("auto", "Finir le tournoi.", UnfinishedTournamentController)
+        self.menu.add("auto", "Liste des joueurs.", ArchiveTournamentShowPlayersController)
+        self.menu.add("auto", "Liste des rounds.", ArchiveTournamentShowRoundsController)
+        self.menu.add("auto", "Retour au menu.", HomeMenuController)
+        user_choice = self.view.get_user_choice()
+        # 3. retourner le controller associé au choix de l'utilisateur au controleur principal
+        return user_choice.handler
+
+class ArchiveTournamentShowPlayersController:
+    def __init__(self):
+        self.menu = Menu()
+        self.view = HomeMenuView(self.menu)
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
+
+    def __call__(self):
+        self.tournament_controller.display_info_tournament_players()
+        self.menu.header("_________________________________", "")
+        self.menu.header("Archive : Liste des joueurs du tournoi : ", self.tournament_controller.tournament.name)
+        self.menu.add("auto", "Liste des rounds.", ArchiveTournamentShowRoundsController)
+        self.menu.add("auto", "Retour liste des tournois.", ArchiveTournamentController)
+        self.menu.add("auto", "Retour au menu.", HomeMenuController)
+        user_choice = self.view.get_user_choice()
+        # 3. retourner le controller associé au choix de l'utilisateur au controleur principal
+        return user_choice.handler
+
+class ArchiveTournamentShowRoundsController:
+    def __init__(self):
+        self.menu = Menu()
+        self.view = HomeMenuView(self.menu)
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
+
+    def __call__(self):
+        self.tournament_controller.display_info_tournament_rounds()
+        self.menu.header("_________________________________", "")
+        self.menu.header("Archive : Liste des rounds du tournoi : ", self.tournament_controller.tournament.name)
+        self.menu.add("auto", "Liste des joueurs.", ArchiveTournamentShowPlayersController)
+        self.menu.add("auto", "Retour liste des tournois.", ArchiveTournamentController)
+        self.menu.add("auto", "Finir le tournoi.", UnfinishedTournamentController)
+        self.menu.add("auto", "Retour au menu.", HomeMenuController)
+        user_choice = self.view.get_user_choice()
+        # 3. retourner le controller associé au choix de l'utilisateur au controleur principal
+        return user_choice.handler
+
+
+class UnfinishedTournamentController:
+    def __init__(self):
+        self.menu = Menu()
+        self.view = HomeMenuView(self.menu)
+        self.tournament_controller = CreateTournamentMenuController.tournament_controller
+
+    def __call__(self):
+        unfinishe = self.tournament_controller.unfinished_tournament()
+        if unfinishe is True:
+            self.menu.header("_________________________________", "")
+            self.menu.header("Menu : Rerprise du tournoi : ", self.tournament_controller.tournament.name)
+            self.menu.add("auto", "reprendre.", StartRoundController)
+            self.menu.add("auto", "Retour au menu.", HomeMenuController)
+            user_choice = self.view.get_user_choice()
+            # 3. retourner le controller associé au choix de l'utilisateur au controleur principal
+            return user_choice.handler
+        elif unfinishe is False:
+            self.menu.header("_________________________________", "")
+            self.menu.header("Menu : Tournoi fini impossible de continuer", self.tournament_controller.tournament.name)
+            self.menu.add("auto", "Retour liste des tournois.", ArchiveTournamentController)
+            self.menu.add("auto", "Retour au menu.", HomeMenuController)
+            user_choice = self.view.get_user_choice()
+            # 3. retourner le controller associé au choix de l'utilisateur au controleur principal
+            return user_choice.handler
+
+
 
 
 t = ApplicationController()
