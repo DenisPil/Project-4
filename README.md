@@ -5,7 +5,7 @@
   
 ## Installation
 
- Télécharger le dossier "app", le  copier dans un dossier de votre choix.A partir d'un terminal lance Dans la console aller dans ce dossier choisi.
+ Télécharger le dossier "app", le  copier dans un dossier de votre choix.
   
 
 ## Environnement virtuel
