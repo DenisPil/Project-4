@@ -12,7 +12,7 @@ class Tournament:
     tournament_table = db.table("tournament")
     players_table = db.table("players")
 
-    def __init__(self, 
+    def __init__(self,
                  name=None,
                  location=None,
                  time_ctrl=None,
@@ -65,7 +65,7 @@ class Tournament:
         """
             Méthode qui sérialise la liste des joueurs d'un tournoi, qui sera ajouté
             à la serialisation du tournoi.
-            Renvoie la liste des joueurs serialisés du tournoi. 
+            Renvoie la liste des joueurs serialisés du tournoi.
         """
 
         list_players_serialized = list()
@@ -78,11 +78,11 @@ class Tournament:
         return list_players_serialized
 
     def serialize_list_of_rounds(self):
-        
+
         """
             Méthode qui sérialise la liste des rounds d'un tournoi, qui sera ajouté
             à la serialisation du tournoi.
-            Renvoie la liste des rounds serialisés du tournoi. 
+            Renvoie la liste des rounds serialisés du tournoi.
         """
 
         serialized_round = list()

@@ -6,6 +6,7 @@ from views.home_menu_view import HomeMenuView
 from utils.menus import Menu
 from utils.constants import PLAYER_MAX, ROUND_MAX
 
+
 class TournamentController:
 
     """
@@ -26,7 +27,7 @@ class TournamentController:
             "new_tournament": "Création d'un nouveau tournoi.\nRemplir les informations demandé.",
             "name": "Le nom du tournoi :",
             "location": "Le lieu du tournoi",
-            "ask_rythme": "Dans qu'elle mode de jeu, sera joué le tournoi ?\n1 = Bullet, 2 = Blitz :",
+            "ask_rythme": "Dans qu'elle mode de jeu, sera joué le tournoi ?\n1 = Bullet, 2 = Blitz, 3 = Rapide :",
             "ask_date": "Le tournoi ce déroule sur une journée ?\n 1 oui  2 non : ",
             "date_one_day": "entrée la date du tournoi dans le format suivant '01/01/1901' :",
             "date_start": "entrée la date de début de tournoi dans le format suivant '01/01/1901' :",
@@ -50,12 +51,10 @@ class TournamentController:
             de base du tournoi.
         """
 
-
-        """Création des informations de base d'un tournoi"""
         self.view.show(self.display_info["new_tournament"])
         self.view.show(self.display_info["name"])
         name = self.control_input.get_input_str()
-        """self.view.show(self.display_info["location"])
+        self.view.show(self.display_info["location"])
         location = self.control_input.get_input_str()
         self.view.show(self.display_info["ask_rythme"])
         time_ctrl = self.control_input.get_rythme()
@@ -68,22 +67,17 @@ class TournamentController:
         else:
             self.view.show(self.display_info["date_start"])
             start_date = self.control_input.get_input_date()
-
-            valid_date = False
-            while valid_date == False:
-                self.view.show(self.display_info["date_end"])
+            self.view.show(self.display_info["date_end"])
+            end_date = self.control_input.get_input_date()
+            if end_date < start_date:
+                self.view.show(self.display_info["date_error"])
                 end_date = self.control_input.get_input_date()
-                if end_date < start_date:
-                    self.view.show(self.display_info["date_error"])
-                    valid_date = False
-                else:
-                    valid_date = True"""
 
         self.tournament = Tournament(name=name,
-                                     location="location",
-                                     time_ctrl="time_ctrl",
-                                     start_date="start_date",
-                                     end_date="end_date",
+                                     location=location,
+                                     time_ctrl=time_ctrl,
+                                     start_date=str(start_date),
+                                     end_date=str(end_date),
                                      list_rounds=list(),
                                      list_players=list()
                                      )
@@ -123,20 +117,15 @@ class TournamentController:
                     self.view.show(self.display_info["date_one_day"])
                     start_date = self.control_input.get_input_date()
                     end_date = start_date
-                else:
-                    self.view.show(self.display_info["date_start"])
-                    start_date = self.control_input.get_input_date()
-
-                    valid_date = False
-                    while valid_date == False:
-                        self.view.show(self.display_info["date_end"])
-                        end_date = self.control_input.get_input_date()
-                        if end_date < start_date:
-                            self.view.show(self.display_info["date_error"])
-                            valid_date = False
-                        else:
-                            valid_date = True
-        self.tournament.serialize()
+            else:
+                self.view.show(self.display_info["date_start"])
+                start_date = self.control_input.get_input_date()
+                self.view.show(self.display_info["date_end"])
+                end_date = self.control_input.get_input_date()
+                if end_date < start_date:
+                    self.view.show(self.display_info["date_error"])
+                    end_date = self.control_input.get_input_date()
+            self.tournament.serialize()
 
     def add_players(self):
 
@@ -299,11 +288,10 @@ class TournamentController:
         self.view.show(self.display_info['select_tournament'])
         self.select_tournament()
 
-
     def select_tournament(self):
 
         """
-            Méthode qui permet de selectionner un tournoi 
+            Méthode qui permet de selectionner un tournoi
             à partir de la liste de tournoi déjà instanciés.
             Compléte les informations de base avec les instances
             de joueurs et des rounds.
@@ -317,8 +305,6 @@ class TournamentController:
                 self.tournament.list_players = self.player.deserialize__players_from_tournament(tournament.list_players)
                 rounds_instance_list = self.tournament.deserialize_rounds_from_database(players=tournament.list_players)
                 self.tournament.list_rounds = rounds_instance_list
-
-  
 
     def display_info_tournament_rounds(self):
 

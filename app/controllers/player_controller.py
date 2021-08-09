@@ -35,7 +35,7 @@ class PlayerController:
             Renvoie une instance de joueur.
         """
 
-        """self.view.show(self.display_information["first_name"])
+        self.view.show(self.display_information["first_name"])
         first_name = self.input.get_input_str()
         self.view.show(self.display_information["last_name"])
         last_name = self.input.get_input_str()
@@ -44,14 +44,14 @@ class PlayerController:
         self.view.show(self.display_information["elo"])
         elo = self.input.get_input_int()
         self.view.show(self.display_information["birthday"])
-        birthday = self.input.get_input_date()"""
+        birthday = self.input.get_input_date()
 
-        self.player = Player(first_name="first_name",
-                             last_name="last_name",
-                             gender="gender",
-                             elo=Player.player_id,
+        self.player = Player(first_name=first_name,
+                             last_name=last_name,
+                             gender=gender,
+                             elo=elo,
                              ranking_points=0,
-                             birthday="birthday",
+                             birthday=str(birthday),
                              ID=Player.player_id
                              )
         Player.player_id += 1

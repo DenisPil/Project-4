@@ -35,7 +35,7 @@ class Player:
     def __str__(self):
 
         """
-            Permet d'afficher un joueur avec ses attributs
+            Permet d'afficher un joueur avec ses attributs.
         """
 
         return (f"ID : {self.ID}, Joueur : {self.first_name}  {self.last_name}, "
@@ -44,7 +44,7 @@ class Player:
     def serialize(self):
 
         """
-            serialise un joueur pour la base de donnée
+            Serialise un joueur pour la base de donnée.
         """
 
         user = Query()
@@ -59,7 +59,7 @@ class Player:
 
     def add_player_from_database(self, player_id):
 
-        """ 
+        """
             Méthode qui ajoute un joueur de la base de donnée a un tournoi.
             Renvoie une instance de joueur.
 

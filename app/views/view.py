@@ -1,5 +1,5 @@
 class View:
-    
+
     """
         Classe qui permet de tout afficher à l'utilisateur.
     """
@@ -13,7 +13,7 @@ class View:
             Méthode qui affiche une information à l'utilisateur.
 
             Argument:
-                info = une information pour l'utilisateur. 
+                info = une information pour l'utilisateur.
                 ex : demander le nom d'un joueur, le lieu d'un tournoi etc...
         """
 
@@ -81,7 +81,7 @@ class View:
                 name = le nom du tournoi
                 location = le lieu du tournoi
                 time_ctrl = le type de partie
-                start_date = date de début du tournoi 
+                start_date = date de début du tournoi
                 end_date = date de fin du tournoi.
         """
 

@@ -3,26 +3,32 @@ from controllers.grab import Input
 
 class HomeMenuView:
 
+    """
+        Classe qui affiche le menu.
+    """
+
     def __init__(self, menu):
         self.menu = menu
         self.input = Input()
 
     def display_menu(self):
+
+        """
+            Méthode qui permet d'afficher des entrées du menu.
+        """
+
         for key, entry in self.menu.items():
             print(f"{key} : {entry} ")
         print("")
 
     def get_user_choice(self):
 
+        """
+            Méthode qui demande à l'utilisateur de choisir un menu.
+            Renvoie une instance d'objet qui est une entrée de menu désignée par choice.
+        """
         while True:
-            # afficher le menu à l'utilisateur
             self.display_menu()
-            # delander à l'utilisateur de faire un choix
             choice = self.input.get_input_str()
-            # valider  de l'utilisateur
             if choice in self.menu:
-                # retourner le choix de l'utilisateur
                 return self.menu[choice]
-
-    def show(self, info):
-        print(info)

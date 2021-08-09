@@ -1,12 +1,12 @@
 import datetime
 from views.view import View
 
+
 class Input:
 
     """
         Classe qui gére toutes les entrées utilisateur.
     """
-
 
     def __init__(self):
         self.view = View()
@@ -88,7 +88,7 @@ class Input:
             Renvoie une valeur avec le type de partie
         """
 
-        rythme = str
+        rythme = ""
         while True:
             try:
                 value = int(input("-->"))
@@ -99,8 +99,8 @@ class Input:
                     rythme = "Blitz"
                     break
                 elif value == 3:
-                    rythme = "Rapid"    
-
+                    rythme = "Rapid"
+                    break
             except ValueError:
                 self.view.show(self.display_info["error"])
         return rythme

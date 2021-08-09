@@ -1,0 +1,3 @@
+PLAYER_MAX = 8
+
+ROUND_MAX = 4
