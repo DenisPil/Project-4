@@ -32,13 +32,3 @@
 
 *  À partir d'un terminal pour lancer le fichier vous pouvez rentrer la commande :
 *  `$ python3 main.py`
-
-
-
-  
-
-
-### Test 3
-
-
-`insérez du code`
