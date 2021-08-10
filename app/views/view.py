@@ -25,7 +25,7 @@ class View:
             Méthode qui affiche les joueurs pour le prochain match
 
             Arguments:
-                match_num = le numéro du matche
+                match_num = le numéro du match
                 player_1 = le joueur numéro 1
                 player_2 = le joueur numéro 2
         """
@@ -35,10 +35,10 @@ class View:
     def show_archived_matches(self, match_num, player_1, player_2, winner):
 
         """
-            Méthode qui affiche les matches archivés
+            Méthode qui affiche les matchs archivés
 
             Arguments:
-                match_num = le numéro du matche
+                match_num = le numéro du match
                 player_1 = le joueur numéro 1
                 player_2 = le joueur numéro 2
                 winner =  le gagnant du match

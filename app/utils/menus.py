@@ -9,8 +9,8 @@ class MenuEntry:
 
         """
              Arguments:
-                option = déscription textuelle de l'option du menu
-                handler = objet d'une classe du controlleur d'application
+                option = description textuelle de l'option du menu
+                handler = objet d'une classe du contrôleur d'application
         """
 
         self.option = option
@@ -43,9 +43,9 @@ class Menu:
             Méthode qui ajoute une entrée au menu.
 
             Arguments:
-                key = La clé permet d'acceder a un menu.
+                key = La clé permet d'accéder à un menu.
                 option = description textuelle du menu.
-                handler = correspond à l'option décrite et permet d'acceder au menu choisi
+                handler = correspond à l'option décrite et permet d'accéder au menu choisi
         """
 
         if key == "auto":
@@ -56,25 +56,25 @@ class Menu:
     def header(self, header, header_name):
 
         """
-            Méthode qui affiche les entête du menu.
+            Méthode qui affiche les entêtes du menu.
 
             Arguments:
-                header = Affiche la catégorie de menu ou ce trouve l'utilisateur
-                header_name = Affiche le nom du menu dans le quelle ce trouve l'utilisateur
+                header = Affiche la catégorie de menu où se trouve l'utilisateur
+                header_name = Affiche le nom du menu dans lequel se trouve l'utilisateur
         """
         self.entries[str(header)] = MenuEntry(header_name, None)
 
     def items(self):
 
         """
-            Méthode qui permet de renvoier un itérrateur a travers les clés et les entrées du menu
+            Méthode qui permet de renvoyer un itérateur à travers les clés et les entrées du menu
         """
         return self.entries.items()
 
     def __contains__(self, choice):
 
         """
-            Méthode qui permet de savoir si une valeur(choice) ce trouve dans le menu.
+            Méthode qui permet de savoir si une valeur (choice) se trouve dans le menu.
             Renvoie un booléen (True si choice est bien dans self.entires)
 
             Arguments:
@@ -88,10 +88,10 @@ class Menu:
     def __getitem__(self, choice):
 
         """
-            Permet d'obtenir menu[choice] pour obtenir l'entrée correspondant au choix
+            Permet d'obtenir menu [choice] pour obtenir l'entrée correspondante au choix
             Renvoie une instance d'objet MenuEntry, entrée du menu de choice
 
-            Arguments:
+            Argument:
             choice =  choix saisi par l'utilisateur
         """
 

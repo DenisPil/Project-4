@@ -44,7 +44,7 @@ class Player:
     def serialize(self):
 
         """
-            Serialise un joueur pour la base de donnée.
+            Sérialise un joueur pour la base de donnée.
         """
 
         user = Query()
@@ -60,14 +60,15 @@ class Player:
     def add_player_from_database(self, player_id):
 
         """
-            Méthode qui ajoute un joueur de la base de donnée a un tournoi.
+            Méthode qui ajoute un joueur de la base de donnée à un tournoi.
             Renvoie une instance de joueur.
 
             Argument:
-                player_id = L'id du joueur qui correspond a son doc_id de la base de donnée.
+                player_id = L'id du joueur qui correspond à son doc_id de la base de donnée.
         """
 
         player = self.players_table.get(doc_id=player_id)
+        print(player,"854654654z654z654z")
         player_instance = Player(first_name=player['prenom'],
                                  last_name=player['nom'],
                                  gender=player['genre'],
@@ -81,9 +82,9 @@ class Player:
     def deserialize_players_in_database(self):
 
         """
-        Méthode qui deserialise tous les joueurs pour les archives
+        Méthode qui désérialise tous les joueurs pour les archives
         Renvoie une liste de toutes les instances de joueurs
-        contenue dans la base de donnée.
+        contenues dans la base de donnée.
         """
 
         serialized_players = self.players_table.all()

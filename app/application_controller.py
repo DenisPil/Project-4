@@ -8,7 +8,7 @@ from utils.constants import ROUND_MAX
 class ApplicationController:
 
     """
-        Controleur principale de l'application qui déclenche toutes les étapes
+        Contrôleur principal de l'application qui déclenche toutes les étapes
     """
 
     def __init__(self):
@@ -16,8 +16,8 @@ class ApplicationController:
 
     def start(self):
         """
-         Méthode qui gére la navigation dans le menu.
-         Créer l'instance de mes controlleurs en "cascade".
+         Méthode qui gère la navigation dans le menu.
+         Créer l'instance de mes contrôleurs en "cascade".
         """
         self.controller = HomeMenuController()
         while self.controller:
@@ -27,7 +27,7 @@ class ApplicationController:
 class HomeMenuController:
 
     """
-        Affiche le menu principale et demande à l'utilisateur de choisir une option
+        Affiche le menu principal et demande à l'utilisateur de choisir une option
     """
 
     def __init__(self):
@@ -39,7 +39,7 @@ class HomeMenuController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du contrôleur choisi par l'utilisateur
         """
 
         self.menu.header("_________________________________", "")
@@ -56,7 +56,7 @@ class HomeMenuController:
 class CreateTournamentMenuController:
 
     """
-        Controlleur du menu de création de tournoi.
+        Contrôleur du menu de création de tournoi.
     """
 
     tournament_controller = TournamentController()
@@ -71,7 +71,7 @@ class CreateTournamentMenuController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du contrôleur choisi par l'utilisateur
         """
 
         self.menu.header("_________________________________", "")
@@ -86,7 +86,7 @@ class CreateTournamentMenuController:
 class NewTournamentController:
 
     """
-        Controlleur de création de tournoi.
+        Contrôleur de création de tournoi.
     """
 
     def __init__(self):
@@ -99,7 +99,7 @@ class NewTournamentController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du contrôleur choisi par l'utilisateur
         """
 
         self.tournament_controller.create_tournament()
@@ -114,7 +114,7 @@ class NewTournamentController:
 class StartRoundController:
 
     """
-        Controlleur qui innitialse les rounds.
+        Contrôleur qui initialise les rounds.
     """
 
     def __init__(self):
@@ -128,7 +128,7 @@ class StartRoundController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.tournament_controller.round_initialization()
@@ -144,7 +144,7 @@ class StartRoundController:
 class AddPlayerInTournamentController:
 
     """
-        Controlleur qui ajoute des joueurs pour un tournoi.
+        Contrôleur qui ajoute des joueurs pour un tournoi.
     """
 
     def __init__(self):
@@ -157,7 +157,7 @@ class AddPlayerInTournamentController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.tournament.add_players()
@@ -172,8 +172,8 @@ class AddPlayerInTournamentController:
 class SetWinnerMatchController:
 
     """
-        Controlleur qui a la fin d'un round demande a l'utilisateur de saisir le gagnant des matches.
-        Il controlle l'état du tournoi pour savoir si le dernier round à était jouer ou non.
+        Contrôleur qui à la fin d'un round demande à l'utilisateur de saisir le gagnant des matchs.
+        Il contrôle l'état du tournoi pour savoir si le dernier round a été joué ou non.
     """
 
     def __init__(self):
@@ -186,9 +186,9 @@ class SetWinnerMatchController:
 
         """
             Méthode qui ajoute les entrées au menu de cette classe.
-            Les entrées sont différente selon l'avancé du tournoi.
+            Les entrées sont différentes selon l'avancée du tournoi.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         if self.num_round <= ROUND_MAX:
@@ -196,7 +196,7 @@ class SetWinnerMatchController:
             self.menu.header("_________________________________", "")
             self.menu.header("Résultat du Tournoi :", self.tournament_controller.tournament.name)
             self.menu.add("auto", "Commencer le prochain Round", StartRoundController)
-            self.menu.add("auto", "Afficher les resultats!", DisplayRankingPointsController)
+            self.menu.add("auto", "Afficher les résultats!", DisplayRankingPointsController)
             self.menu.add("auto", "Retour au menu.", HomeMenuController)
             user_choice = self.view.get_user_choice()
             return user_choice.handler
@@ -213,7 +213,7 @@ class SetWinnerMatchController:
 class AddPlayerMenuController:
 
     """
-        Controlleur du menu qui permet d'ajouter des joueurs a la base de donné.
+        Contrôleur du menu qui permet d'ajouter des joueurs à la base de donnée.
     """
 
     def __init__(self):
@@ -225,12 +225,12 @@ class AddPlayerMenuController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.menu.header("_________________________________", "")
         self.menu.header("Menu", "Nouveau Joueur")
-        self.menu.add("auto", "Ajouter de joueur.", AddPlayerController)
+        self.menu.add("auto", "Ajout de joueur.", AddPlayerController)
         self.menu.add("auto", "Retour au menu.", HomeMenuController)
         user_choice = self.view.get_user_choice()
         return user_choice.handler
@@ -239,7 +239,7 @@ class AddPlayerMenuController:
 class AddPlayerController:
 
     """
-        Controlleur qui ajoute des joueurs a la base de donnée
+        Contrôleur qui ajoute des joueurs à la base de donnée
     """
 
     def __init__(self):
@@ -252,12 +252,12 @@ class AddPlayerController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.players.add_new_player()
         self.menu.header("_________________________________", "")
-        self.menu.add("auto", "Ajouter de joueur.", AddPlayerController)
+        self.menu.add("auto", "Ajout de joueur.", AddPlayerController)
         self.menu.add("auto", "Retour au menu.", HomeMenuController)
         user_choice = self.view.get_user_choice()
         return user_choice.handler
@@ -266,7 +266,7 @@ class AddPlayerController:
 class DisplayRankingPointsController:
 
     """
-        Controlleur qui affiche le classement des joueurs dans un tournoi.
+        Contrôleur qui affiche le classement des joueurs dans un tournoi.
     """
 
     def __init__(self):
@@ -279,7 +279,7 @@ class DisplayRankingPointsController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.tournament_controller.display_ranking_points()
@@ -294,7 +294,7 @@ class DisplayRankingPointsController:
 class DisplayEndTournamentController:
 
     """
-        Controlleur qui permet d'afficher le classement final d'un tournoi.
+        Contrôleur qui permet d'afficher le classement final d'un tournoi.
     """
 
     def __init__(self):
@@ -307,7 +307,7 @@ class DisplayEndTournamentController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.tournament_controller.display_ranking_points()
@@ -321,7 +321,7 @@ class DisplayEndTournamentController:
 class ArchiveMenuController:
 
     """
-        Controlleur du menu archive.
+        Contrôleur du menu archive.
     """
 
     def __init__(self):
@@ -333,7 +333,7 @@ class ArchiveMenuController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.menu.header("_________________________________", "")
@@ -348,7 +348,7 @@ class ArchiveMenuController:
 class ArchivePlayersController:
 
     """
-        Controlleur qui permet d'afficher tous les joueurs contenue dans la base de donnée.
+        Contrôleur qui permet d'afficher tous les joueurs contenu dans la base de donnée.
     """
 
     def __init__(self):
@@ -361,7 +361,7 @@ class ArchivePlayersController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.player_controller.display_players_from_database()
@@ -375,7 +375,7 @@ class ArchivePlayersController:
 class ArchiveTournamentController:
 
     """
-        Controlleur qui permet d'afficher tous les tournois contenue dans la base de donnée.
+        Contrôleur qui permet d'afficher tous les tournois contenu dans la base de donnée.
     """
 
     def __init__(self):
@@ -388,12 +388,12 @@ class ArchiveTournamentController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.tournament_controller.display_tournament_from_database()
         self.menu.header("_________________________________", "")
-        self.menu.header("Archive : Info complémentaire du tournoi: ", self.tournament_controller.tournament.name)
+        self.menu.header("Archive : Infos complémentaires du tournoi: ", self.tournament_controller.tournament.name)
         self.menu.add("auto", "Finir le tournoi.", UnfinishedTournamentController)
         self.menu.add("auto", "Liste des joueurs.", ArchiveTournamentShowPlayersController)
         self.menu.add("auto", "Liste des rounds.", ArchiveTournamentShowRoundsController)
@@ -405,7 +405,7 @@ class ArchiveTournamentController:
 class ArchiveTournamentShowPlayersController:
 
     """
-        Controlleur qui permet d'afficher les joueurs d'un tournoi contenue dans la base de donnée.
+        Contrôleur qui permet d'afficher les joueurs d'un tournoi contenu dans la base de donnée.
     """
 
     def __init__(self):
@@ -418,7 +418,7 @@ class ArchiveTournamentShowPlayersController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.tournament_controller.display_info_tournament_players()
@@ -434,7 +434,7 @@ class ArchiveTournamentShowPlayersController:
 class ArchiveTournamentShowRoundsController:
 
     """
-        Controlleur qui permet d'afficher les rounds et matches d'un tournoi contenue dans la base de donnée.
+        Contrôleur qui permet d'afficher les rounds et matchs d'un tournoi contenu dans la base de donnée.
     """
 
     def __init__(self):
@@ -447,7 +447,7 @@ class ArchiveTournamentShowRoundsController:
         """
             Méthode qui ajoute les entrées au menu de cette classe.
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du Contrôleur choisi par l'utilisateur
         """
 
         self.tournament_controller.display_info_tournament_rounds()
@@ -464,7 +464,7 @@ class ArchiveTournamentShowRoundsController:
 class UnfinishedTournamentController:
 
     """
-        Controlleur qui permet de finir un tournoi enregistrer dans la base de donnée,
+        Contrôleur qui permet de finir un tournoi enregistré dans la base de donnée,
         si le tournoi n'est pas fini.
     """
 
@@ -477,16 +477,16 @@ class UnfinishedTournamentController:
 
         """
             Méthode qui ajoute les entrées au menu de cette classe.
-            L'affichage évolue en fonction de l'état du tournoi (si il est fini ou non)
+            L'affichage évolue en fonction de l'état du tournoi (s'il est fini ou non)
             Affiche le menu et demande à l'utilisateur de choisir une option.
-            Renvoie l'instance du controlleur choisi par l'utilisateur
+            Renvoie l'instance du contrôleur choisi par l'utilisateur
         """
 
         unfinishe = self.tournament_controller.unfinished_tournament()
         if unfinishe is True:
             self.menu.header("_________________________________", "")
             self.menu.header("Menu : Rerprise du tournoi : ", self.tournament_controller.tournament.name)
-            self.menu.add("auto", "reprendre.", StartRoundController)
+            self.menu.add("auto", "Reprendre.", StartRoundController)
             self.menu.add("auto", "Retour au menu.", HomeMenuController)
             user_choice = self.view.get_user_choice()
             return user_choice.handler

@@ -24,24 +24,24 @@ class TournamentController:
         self.view_menu = HomeMenuView(self.menu)
 
         self.display_info = {
-            "new_tournament": "Création d'un nouveau tournoi.\nRemplir les informations demandé.",
+            "new_tournament": "Création d'un nouveau tournoi.\nRemplir les informations demandées.",
             "name": "Le nom du tournoi :",
             "location": "Le lieu du tournoi",
-            "ask_rythme": "Dans qu'elle mode de jeu, sera joué le tournoi ?\n1 = Bullet, 2 = Blitz, 3 = Rapide :",
-            "ask_date": "Le tournoi ce déroule sur une journée ?\n 1 oui  2 non : ",
-            "date_one_day": "entrée la date du tournoi dans le format suivant '01/01/1901' :",
-            "date_start": "entrée la date de début de tournoi dans le format suivant '01/01/1901' :",
-            "date_end": "entrée la date de fin de tournoi dans le format suivant '01/01/1901' :",
-            "date_error": "la date de fin ne peut être anterieure a la date de début, nouvelle date de fin :",
-            "add_player": "Voulez vous ajouter un nouveau joueur ou un joueur de la BDD. 1=new 2=BDD :",
+            "ask_rythme": "Dans quel mode de jeu, sera joué le tournoi ?\n1 = Bullet, 2 = Blitz, 3 = Rapide :",
+            "ask_date": "Le tournoi se déroule sur une journée ?\n 1 oui  2 non : ",
+            "date_one_day": "entrer la date du tournoi dans le format suivant '01/01/1901' :",
+            "date_start": "entrer la date de début de tournoi dans le format suivant '01/01/1901' :",
+            "date_end": "entrer la date de fin de tournoi dans le format suivant '01/01/1901' :",
+            "date_error": "la date de fin ne peut être anterieure à la date de début, nouvelle date de fin :",
+            "add_player": "Voulez-vous ajouter un nouveau joueur ou un joueur de la BDD. 1=new 2=BDD :",
             "winner_is":
             "Qui est le gagnant du match ?\n '1' pour le joueur 1, '2' pour le joueur 2, '0' pour match_nul :",
-            "check": "les informations sont elles correcte ? \n 1 pour oui, 2 pour non :",
-            "invalid_info": "Qu'elles informations n'est pas valide ?",
+            "check": "les informations sont-elles correctes ? \n 1 pour oui, 2 pour non :",
+            "invalid_info": "Quelles informations ne sont pas valides ?",
             "info": "'1' le nom, '2' le lieu, '3' le rythme du tournoi, '4' la date",
             "database id": "Enter l'ID du joueur à ajouter",
             "error id": "L'ID rentrée n'est pas valide",
-            "select_tournament": "Plus de détail entrer le nom du tournoi :"
+            "select_tournament": "Plus de détails, entrer le nom du tournoi :"
         }
 
     def create_tournament(self):
@@ -88,8 +88,8 @@ class TournamentController:
     def check_info_tournament(self):
 
         """
-            Méthode qui affiche les attributs d'un tournoi pour que l'utilisateur les valides
-            ou les modifies au besoin.
+            Méthode qui affiche les attributs d'un tournoi pour que l'utilisateur valide
+            ou modifies si besoin.
         """
 
         self.view.show(self.tournament)
@@ -131,8 +131,8 @@ class TournamentController:
 
         """
             Méthode qui ajoute des joueurs au tournoi.
-            Il est demandé a l'utilisateur si il souhaite ajouter un joueur
-            a partir de la base de donnée ou créer un nouveau joueur.
+            Il est demandé à l'utilisateur s'il souhaite ajouter un joueur
+            à partir de la base de donnée ou créer un nouveau joueur.
         """
         while len(self.tournament.list_players) != PLAYER_MAX:
             self.view.show(self.display_info["add_player"])
@@ -155,7 +155,7 @@ class TournamentController:
     def round_initialization(self):
 
         """
-            Méthode qui innitialise la création des rounds et des matches.
+            Méthode qui innitialise la création des rounds et des matchs.
         """
 
         self.rounds = self.tournament.create_rounds()
@@ -173,7 +173,7 @@ class TournamentController:
     def display_matches(self):
 
         """
-            Méthode qui affiche les matches d'un round
+            Méthode qui affiche les matchs d'un round
         """
 
         for match in self.rounds.list_matches:
@@ -186,7 +186,7 @@ class TournamentController:
 
         """
             Méthode qui permet d'afficher la liste des joueurs
-            en fonction de leur points de tournoi
+            en fonction de leurs points de tournoi
         """
 
         for player in self.rounds.list_players:
@@ -195,7 +195,7 @@ class TournamentController:
     def set_winner(self):
 
         """
-            Méthode qui permet de selectionner le joueur gagnant
+            Méthode qui permet de sélectionner le joueur gagnant
             à la fin d'un match
         """
 
@@ -292,8 +292,8 @@ class TournamentController:
 
         """
             Méthode qui permet de selectionner un tournoi
-            à partir de la liste de tournoi déjà instanciés.
-            Compléte les informations de base avec les instances
+            à partir de la liste de tournoi déjà instanciées.
+            Complète les informations de base avec les instances
             de joueurs et des rounds.
         """
 

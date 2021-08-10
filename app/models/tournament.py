@@ -35,8 +35,8 @@ class Tournament:
     def create_rounds(self):
 
         """
-            Méthode qui crée les rounds a partir de de la classe 'Round',
-            et les ajoutes a la liste de rounds du tournoi.
+            Méthode qui crée les rounds a partir de la classe 'Round',
+            et les ajoutes à la liste de rounds du tournoi.
             Renvoie une instance de round.
         """
 
@@ -48,7 +48,7 @@ class Tournament:
     def serialize(self):
 
         """
-            Méthode qui serialize un tournoi pour la base de donnée.
+            Méthode qui sérialise un tournoi pour la base de donnée.
         """
         user = Query()
         self.tournament_table.upsert({"nom": self.name,
@@ -63,9 +63,9 @@ class Tournament:
     def serialize_list_of_players(self):
 
         """
-            Méthode qui sérialise la liste des joueurs d'un tournoi, qui sera ajouté
-            à la serialisation du tournoi.
-            Renvoie la liste des joueurs serialisés du tournoi.
+            Méthode qui sérialise la liste des joueurs d'un tournoi, qui sera ajoutée
+            à la sérialisation du tournoi.
+            Renvoie la liste des joueurs sérialisés du tournoi.
         """
 
         list_players_serialized = list()
@@ -80,9 +80,9 @@ class Tournament:
     def serialize_list_of_rounds(self):
 
         """
-            Méthode qui sérialise la liste des rounds d'un tournoi, qui sera ajouté
-            à la serialisation du tournoi.
-            Renvoie la liste des rounds serialisés du tournoi.
+            Méthode qui sérialise la liste des rounds d'un tournoi, qui sera ajoutée
+            à la sérialisation du tournoi.
+            Renvoie la liste des rounds sérialisés du tournoi.
         """
 
         serialized_round = list()
@@ -95,8 +95,8 @@ class Tournament:
     def serialized_tournament_list(self):
 
         """
-            Méthode qui créer une list avec tous les tournois serialisés
-            Renvoie une liste des tournoi sérialisés contenue dans la base de donnée.
+            Méthode qui crée une liste avec tous les tournois sérialisés
+            Renvoie une liste des tournois sérialisés contenue dans la base de donnée.
         """
 
         serialized_tournament = self.tournament_table.all()
@@ -105,8 +105,8 @@ class Tournament:
     def deserialize_rounds_from_database(self, players):
 
         """
-            Méthode qui a partir des informations serialiser des rounds,
-            d'un tournoi créer des instances de rounds.
+            Méthode qui à partir des informations sérialisées des rounds
+            d'un tournoi, crée des instances de rounds.
             Renvoie une liste d'instance de round contenue dans le tournoi.
 
             Argument:

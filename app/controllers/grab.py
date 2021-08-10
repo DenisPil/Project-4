@@ -5,7 +5,7 @@ from views.view import View
 class Input:
 
     """
-        Classe qui gére toutes les entrées utilisateur.
+        Classe qui gère toutes les entrées utilisateur.
     """
 
     def __init__(self):
@@ -17,7 +17,7 @@ class Input:
     def get_input_str(self):
 
         """
-            Méthode qui gére toutes les valeurs de type 'str' demandé à l'utilisateur.
+            Méthode qui gère toutes les valeurs de type 'str' demandées à l'utilisateur.
             Renvoie une valeur de type 'str'.
         """
 
@@ -32,7 +32,7 @@ class Input:
     def get_input_int(self):
 
         """
-            Méthode qui gére toutes les valeur de type 'int' demandé à l'utilisateur.
+            Méthode qui gère toutes les valeurs de type 'int' demandées à l'utilisateur.
             Renvoie une valeur de type 'int'.
         """
 
@@ -47,7 +47,7 @@ class Input:
     def get_input_date(self):
 
         """
-            Méthode qui gére toutes les valeur de type 'date' demandé à l'utilisateur.
+            Méthode qui gère toutes les valeurs de type 'date' demandées à l'utilisateur.
             Renvoie une valeur de type 'date'.
         """
 
@@ -83,7 +83,7 @@ class Input:
     def get_rythme(self):
 
         """
-            Méthode qui permet à partir de la valeur rentrée par l'utilisateur
+            Méthode qui permet à partir de la valeur rentrée par l'utilisateur,
             de choisir un type de partie.
             Renvoie une valeur avec le type de partie
         """

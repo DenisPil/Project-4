@@ -31,7 +31,7 @@ class Round:
     def create_first_match(self):
 
         """
-            Méthode qui crée les matches du premier round.
+            Méthode qui crée les matchs du premier round.
         """
 
         self.list_players.sort(key=lambda value: value.elo, reverse=True)
@@ -52,7 +52,7 @@ class Round:
     def create_matches(self):
 
         """
-            Méthode qui crée les matches des round 2, 3 et 4.
+            Méthode qui crée les matchs des round 2, 3 et 4.
         """
 
         sort_elo = sorted(self.list_players, key=attrgetter('elo'), reverse=True)
@@ -98,10 +98,10 @@ class Round:
 
         """
             Méthode qui désérialise un round.
-            Renvoie la liste des matches du round.
+            Renvoie la liste des matchs du round.
 
             Argument:
-                round = un dictionnaire des matches du round.
+                round = un dictionnaire des matchs du round.
         """
 
         list_matches = list()

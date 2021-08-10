@@ -20,18 +20,18 @@ class PlayerController:
 
         self.display_information = {"first_name": "Le prénom du joueur :",
                                     "last_name": "Le nom :",
-                                    "gender": "Le genre ? 'H' si c'est un homme, 'F' si c'est une femme :",
+                                    "gender": "Le genre : 'H' si c'est un homme, 'F' si c'est une femme :",
                                     "elo": "les points ELO du joueur :",
                                     "birthday": "Veuillez saisir la date de naissance dans le format 01/01/1901",
-                                    "check": "les informations sont elles correcte ? \n 1 pour oui, 2 pour non :",
-                                    "invalid_info": "Qu'elles informations n'est pas valide ?",
-                                    "info": "'1' le prénom, '2' le nom, '3' le genre, '4' l'anniverssaire, '5' l'elo "
+                                    "check": "les informations sont-elles correctes ? \n 1 pour oui, 2 pour non :",
+                                    "invalid_info": "Qu'elles informations ne sont pas valide ?",
+                                    "info": "'1' le prénom, '2' le nom, '3' le genre, '4' l'anniversaire, '5' l'elo "
                                     }
 
     def add_new_player(self):
 
         """
-            Méthode qui demande a l'utilisateur de rentrer les informations d'un joueur lors de ça création.
+            Méthode qui demande à l'utilisateur de rentrer les informations d'un joueur lors de sa création.
             Renvoie une instance de joueur.
         """
 
@@ -62,22 +62,22 @@ class PlayerController:
     def add_database_player(self, player_id):
 
         """
-            Méthode qui récupére l'ID d'un joueur, pour créer une instance de joueur a partir de la base de donnée.
-            Cette méthode est utiliser pour ajouter un joueur a un tournoi.
+            Méthode qui récupère l'ID d'un joueur, pour créer une instance de joueur à partir de la base de donnée.
+            Cette méthode est utilisée pour ajouter un joueur à un tournoi.
             Renvoie une instance de joueur.
 
             Argument:
-                player_id = L'id du joueur qui correspond a son doc_id de la base de donnée.
+                player_id = L'id du joueur qui correspond à son doc_id de la base de donnée.
         """
 
-        player = Player().add_player_from_database(doc_id=player_id)
+        player = Player().add_player_from_database(player_id=player_id)
         return player
 
     def check_player_info(self):
 
         """
-            Méthode qui affiche les attributs d'un joueur pour que l'utilisateur les valides
-            ou les modifies au besoin.
+            Méthode qui affiche les attributs d'un joueur pour que l'utilisateur valide
+            ou modifie si besoin.
         """
 
         self.view.check_info_player(ID=self.player.ID,
@@ -130,8 +130,8 @@ class PlayerController:
     def deserialize__players_from_tournament(self, player_list):
 
         """
-            Méthode qui créer les instances de joueurs d'un tournoi a partir de la liste
-            de joueurs serialisées du tournoi.
+            Méthode qui crée les instances de joueurs d'un tournoi à partir de la liste
+            de joueurs serialisés du tournoi.
             Renvoie une liste d'instances de joueurs
 
             Argument:
